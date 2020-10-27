@@ -8,9 +8,8 @@ using API.Entities; //Needed for AppUser
 using API.Data; //Needed for DataContext
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class UsersController : ControllerBase
+ 
+    public class UsersController : BaseApiController
     {
         private readonly DataContext _context;
         public UsersController(DataContext context)
