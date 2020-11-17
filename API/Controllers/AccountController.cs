@@ -1,3 +1,7 @@
+using System.Security.AccessControl;
+using System.Runtime.InteropServices;
+using System.IO.Pipes;
+using System.Xml.Schema;
 //using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,8 +12,10 @@ using API.Data;
 using API.DTOs;
 //using API.Data.Migrations.DataContext;
 using API.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 //using static API.Controllers.BaseApiController;
 
 namespace API.Controllers
@@ -43,7 +49,7 @@ namespace API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<AppUser>>Login(LoginDto loginDto){
+        public async Task<ActionResult<AppUser>> Login(LoginDto loginDto){
             var user = await _context.Users
             .SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
 
@@ -54,7 +60,7 @@ namespace API.Controllers
             var ComputeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(Login.Password));
 
             for(int i = 0; i < ComputeHash.Length; i++){
-                if(ComputedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid password");
+                if(ComputeHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid password");
 
             }
 
